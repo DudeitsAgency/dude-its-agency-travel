@@ -281,3 +281,97 @@
     initBrokenImages();
   });
 })();
+
+/* Production backend integration */
+(function () {
+  "use strict";
+  const SUPABASE_URL = "https://wjriwuagxkekofnxskzl.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_dg53yqlV-gqGw7nHZaSEyA_opuaRzhg";
+  let clientPromise = null;
+
+  function loadSupabase() {
+    if (window.supabase && window.supabase.createClient) return Promise.resolve(window.supabase);
+    if (clientPromise) return clientPromise;
+    clientPromise = new Promise((resolve, reject) => {
+      const s = document.createElement("script");
+      s.src = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";
+      s.async = true;
+      s.dataset.dudeSupabase = "1";
+      s.onload = () => window.supabase && window.supabase.createClient ? resolve(window.supabase) : reject(new Error("Supabase SDK unavailable"));
+      s.onerror = reject;
+      document.head.appendChild(s);
+    });
+    return clientPromise;
+  }
+
+  async function getClient() {
+    const sdk = await loadSupabase();
+    return sdk.createClient(SUPABASE_URL, SUPABASE_KEY);
+  }
+
+  function val(form, name) {
+    return form && form.elements && form.elements.namedItem(name) ? (form.elements.namedItem(name).value || "").trim() : "";
+  }
+
+  async function saveSearch(form) {
+    try {
+      const c = await getClient();
+      const from = val(form, "from"), to = val(form, "to");
+      const departure = val(form, "departure") || val(form, "departureDate");
+      const returnDate = val(form, "return") || val(form, "returnDate");
+      if (!from || !to || !departure) return;
+      await c.from("flight_searches").insert({
+        from_code: from.toUpperCase(), to_code: to.toUpperCase(),
+        departure_date: departure, return_date: returnDate || null,
+        trip_type: (form.querySelector('input[name="tripType"]:checked') || {}).value || "roundtrip",
+        passengers: Number(val(form, "passengers") || 1),
+        cabin: (val(form, "cabin") || "economy").toLowerCase()
+      });
+    } catch (e) { console.warn("Dude search logging", e); }
+  }
+
+  async function saveBooking(form) {
+    try {
+      const c = await getClient();
+      const modal = form.closest("#bookingModal");
+      let trip = {};
+      try { trip = JSON.parse(modal && modal.dataset.trip || "{}"); } catch (_) {}
+      const fullName = val(form, "name"), email = val(form, "email"), phone = val(form, "phone");
+      if (!fullName || !phone) return;
+      const customer = await c.from("customers").insert({full_name: fullName, email: email || null, phone: phone}).select("id").single();
+      const customerId = customer.error ? null : customer.data.id;
+      await c.from("booking_requests").insert({
+        customer_id: customerId, full_name: fullName, email: email || null, phone: phone,
+        trip_type: trip.tripType || "roundtrip", from_code: trip.from || "TBD", to_code: trip.to || "TBD",
+        departure_date: trip.departure || new Date().toISOString().slice(0,10), return_date: trip.returnDate || null,
+        passengers: Number(trip.passengers || 1), cabin: String(trip.cabin || "economy").toLowerCase(),
+        notes: val(form, "notes"), status: "new"
+      });
+    } catch (e) { console.error("Dude booking backend", e); }
+  }
+
+  async function saveContact(form) {
+    try {
+      const c = await getClient();
+      await c.from("contact_requests").insert({
+        full_name: val(form, "name") || val(form, "fullName"),
+        email: val(form, "email") || null, phone: val(form, "phone") || null,
+        subject: val(form, "subject") || "Website enquiry",
+        message: val(form, "message") || val(form, "notes")
+      });
+    } catch (e) { console.warn("Dude contact backend", e); }
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    document.addEventListener("submit", function (event) {
+      const form = event.target;
+      if (!(form instanceof HTMLFormElement)) return;
+      if (form.matches(".flight-form, #flightSearchForm, .search-card form")) saveSearch(form);
+      else if (form.id === "bookingForm") saveBooking(form);
+      else if (!form.matches(".flight-form, #bookingForm")) saveContact(form);
+    }, true);
+  });
+
+  window.DudeBackend = { getClient, saveSearch, saveBooking, saveContact };
+})();
+
