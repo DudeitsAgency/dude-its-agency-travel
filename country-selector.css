@@ -1,0 +1,5 @@
+
+.location-field select{width:100%;margin-bottom:7px;border:0;outline:0;background:transparent;color:var(--deep);font-weight:600;font-size:12px;min-width:0}
+.location-field select option{color:#173154;background:#fff}
+.location-field .input-row{border-top:1px solid rgba(225,235,246,.9);padding-top:6px}
+@media(max-width:1100px){.location-field select{font-size:11px}}
