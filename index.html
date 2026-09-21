@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Dude It's Agency — modern travel, flights, hotels and tailored journeys.">
+<title>Dude It's Agency — Travel Beyond Ordinary</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="nav">
+  <a class="brand" href="#"><span class="brand-mark">D</span><span>DUDE IT'S <em>AGENCY</em></span></a>
+  <nav class="links">
+    <a href="#discover">Discover</a><a href="#packages">Packages</a><a href="#why">Why Dude</a><a href="#contact">Contact</a>
+  </nav>
+  <a class="nav-cta" href="#booking">Plan my trip <span>↗</span></a>
+</header>
+
+<main>
+<section class="hero">
+  <div class="hero-copy">
+    <p class="eyebrow">TRAVEL, REIMAGINED</p>
+    <h1>Go further.<br><span>Feel more.</span></h1>
+    <p class="hero-text">Flights, hotels and unforgettable journeys — curated by real travel people who care about the details.</p>
+    <div class="hero-actions"><a class="button primary" href="#booking">Start your journey <span>→</span></a><a class="button ghost" href="#packages">Explore packages</a></div>
+    <div class="proof"><div><strong>100+</strong><span>destinations</span></div><div><strong>24/7</strong><span>travel support</span></div><div><strong>1</strong><span>team behind you</span></div></div>
+  </div>
+  <div class="hero-art">
+    <div class="orb"></div><div class="route route1"></div><div class="route route2"></div>
+    <div class="floating-card card-top"><span>✦</span><div><small>YOUR NEXT</small><b>ADVENTURE</b></div></div>
+    <div class="destination-card"><div class="mini-img"></div><div><small>FEATURED ESCAPE</small><h3>Anywhere.</h3><p>We make getting there easy.</p></div></div>
+  </div>
+</section>
+
+<section class="search-wrap" id="booking">
+  <div class="search-tabs"><button class="active" data-type="flight">✈ Flights</button><button data-type="hotel">▱ Hotels</button><button data-type="package">✦ Packages</button></div>
+  <form class="search-box" id="searchForm">
+    <label><span>FROM</span><input id="from" placeholder="Cairo (CAI)" required></label>
+    <label><span>TO</span><input id="to" placeholder="Where to?" required></label>
+    <label><span>DATE</span><input id="date" type="date" required></label>
+    <label><span>TRAVELERS</span><select id="travelers"><option>1 traveler</option><option>2 travelers</option><option>3 travelers</option><option>4+ travelers</option></select></label>
+    <button class="search-btn" type="submit">Search <span>→</span></button>
+  </form>
+  <p class="search-note" id="searchNote">Search is a starting point — a Dude travel advisor will help you secure the right option.</p>
+</section>
+
+<section class="section" id="discover">
+  <div class="section-head"><div><p class="eyebrow">DISCOVER</p><h2>Where will you go next?</h2></div><a href="#booking">Build a trip →</a></div>
+  <div class="destinations">
+    <article class="destination d1"><div><span>01</span><h3>City energy</h3><p>Big cities. Bigger stories.</p></div></article>
+    <article class="destination d2"><div><span>02</span><h3>Beach mode</h3><p>Switch off. Dive in.</p></div></article>
+    <article class="destination d3"><div><span>03</span><h3>Wild escapes</h3><p>Take the scenic route.</p></div></article>
+  </div>
+</section>
+
+<section class="packages section" id="packages">
+  <div class="section-head"><div><p class="eyebrow">PACKAGES</p><h2>Travel your way.</h2></div><p>Simple packages. Flexible plans. Human support.</p></div>
+  <div class="package-grid">
+    <article class="package"><span class="tag">START</span><h3>Dude</h3><p>For spontaneous travelers who want the essentials handled.</p><ul><li>Flight options</li><li>Hotel matching</li><li>Travel advisor support</li></ul><a href="#contact">Get started →</a></article>
+    <article class="package featured"><span class="tag">MOST FLEXIBLE</span><h3>Dude Premium</h3><p>A smoother journey with more choice and more support.</p><ul><li>Priority flight & hotel options</li><li>Personal itinerary</li><li>24/7 support</li></ul><a href="#contact">Plan premium →</a></article>
+    <article class="package"><span class="tag">BUSINESS</span><h3>Dude Corporate</h3><p>Travel support designed around teams, schedules and business.</p><ul><li>Corporate travel support</li><li>Flexible arrangements</li><li>Dedicated advisor</li></ul><a href="#contact">Talk to us →</a></article>
+  </div>
+</section>
+
+<section class="manifesto" id="why"><p class="eyebrow">THE DUDE WAY</p><h2>We're not here to sell you a ticket.<br><span>We're here to get you there.</span></h2><p>Technology finds the options. People understand the journey. Dude brings both together.</p></section>
+
+<section class="contact section" id="contact">
+  <div><p class="eyebrow">LET'S TALK</p><h2>Tell us where<br>you want to go.</h2><p>Send your trip idea and a travel advisor will get back to you.</p></div>
+  <form class="contact-form" id="contactForm"><input placeholder="Your name" required><input type="email" placeholder="Email address" required><input placeholder="Destination / trip idea" required><textarea placeholder="Anything we should know?"></textarea><button class="button primary" type="submit">Request a callback →</button><small id="formStatus"></small></form>
+</section>
+</main>
+
+<footer><div class="brand"><span class="brand-mark">D</span><span>DUDE IT'S <em>AGENCY</em></span></div><p>Travel beyond ordinary.</p><p>© 2026 Dude It's Agency</p></footer>
+<script src="script.js"></script>
+</body>
+</html>
